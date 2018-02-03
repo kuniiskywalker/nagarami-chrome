@@ -1,0 +1,18 @@
+{
+    "name": "__MSG_appName__",
+    "manifest_version": 2,
+    "version": "0.1",
+    "default_locale": "en",
+    "description": "__MSG_appDesc__",
+    "permissions": [
+      "contextMenus",
+      "alwaysOnTopWindows",
+      "webview"
+    ],
+    "app": {
+      "background": {
+          "scripts": ["src/background.js"],
+          "persistent": false
+        }
+    }
+}
