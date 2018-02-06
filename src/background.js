@@ -36,6 +36,15 @@ function runApp() {
         function(newWindow) {
             newWindow.contentWindow.onload = function(window){
                 var webview = window.target.querySelector('body webview');
+                window.target.getElementById("close").onclick = function() {
+                    newWindow.close();
+                }
+                window.target.getElementById("back").onclick = function() {
+                    webview.back();
+                }
+                window.target.getElementById("forward").onclick = function() {
+                    webview.forward();
+                }
                 const label = chrome.i18n.getMessage("menuLabel");
                 webview.contextMenus.create({
                     type: 'normal',
@@ -46,6 +55,16 @@ function runApp() {
                         playMovie(info.linkUrl);
                     }
                 });
+            }
+            newWindow.onClosed.addListener(function() {
+                debugger;
+            })
+            newWindow.onClosed = function(){
+debugger;
+                var currentMovieWindow = chrome.app.window.get('playerWindowID');
+                if (currentMovieWindow) {
+                    currentMovieWindow.close();
+                }
             }
         }
     );
@@ -63,7 +82,7 @@ function playMovie (linkUrl) {
         webview.addEventListener('loadcommit', function(e) {
             this.insertCSS({
                 code: '#meta{display:none} #info{display:none} #page-manager{margin: 0px} #masthead-container{display:none} #container{display:none} #related{display:none} #items{display:none}',
-                runAt: 'document_start'  // and added this
+                runAt: 'document_start'
             });
         });       
 	return;
@@ -74,6 +93,7 @@ function playMovie (linkUrl) {
             'id': 'playerWindowID',
             width: 100,
             height: 100,
+            // frame: 'none',
             'alwaysOnTop': true,
             innerBounds: {
                 top: top,
