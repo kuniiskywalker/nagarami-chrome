@@ -35,16 +35,26 @@ function runApp() {
         },
         function(newWindow) {
             newWindow.contentWindow.onload = function(window){
-                var webview = window.target.querySelector('body webview');
-                window.target.getElementById("close").onclick = function() {
-                    newWindow.close();
+                const webview = window.target.querySelector('body webview');
+
+                const nagaramiButton = window.target.querySelector('#nagarami-button');
+
+                webview.addEventListener('loadcommit', function(e) {
+                    if(e.url.match(/^https:\/\/www.youtube.com\/watch\?v=/)) {
+                        nagaramiButton.style.visibility = 'visible';
+                    } else {
+                        nagaramiButton.style.visibility = 'hidden';
+                    }
+                });
+
+                nagaramiButton.onclick = function() {
+                    webview.executeScript({code: "location.href"},
+                        function(results) {
+                            const linkUrl = results[0];
+                            playMovie(linkUrl);
+                        })
                 }
-                window.target.getElementById("back").onclick = function() {
-                    webview.back();
-                }
-                window.target.getElementById("forward").onclick = function() {
-                    webview.forward();
-                }
+
                 const label = chrome.i18n.getMessage("menuLabel");
                 webview.contextMenus.create({
                     type: 'normal',
@@ -56,28 +66,18 @@ function runApp() {
                     }
                 });
             }
-            newWindow.onClosed.addListener(function() {
-                debugger;
-            })
-            newWindow.onClosed = function(){
-debugger;
-                var currentMovieWindow = chrome.app.window.get('playerWindowID');
-                if (currentMovieWindow) {
-                    currentMovieWindow.close();
-                }
-            }
         }
     );
 }
 
 function playMovie (linkUrl) {
-    var height = 130;
-    var width = 100;
-    var top = window.parent.screen.height - height;
-    var left = window.parent.screen.width - width;
-    var currentMovieWindow = chrome.app.window.get('playerWindowID');
+    const height = 130;
+    const width = 100;
+    const top = window.parent.screen.height - height;
+    const left = window.parent.screen.width - width;
+    const currentMovieWindow = chrome.app.window.get('playerWindowID');
     if (currentMovieWindow) {
-        var webview = currentMovieWindow.contentWindow.document.querySelector('body webview');
+        const webview = currentMovieWindow.contentWindow.document.querySelector('body webview');
         webview.src = linkUrl;
         webview.addEventListener('loadcommit', function(e) {
             this.insertCSS({
@@ -102,11 +102,11 @@ function playMovie (linkUrl) {
         },
         function(newWindow) {
             newWindow.contentWindow.onload = function(window){
-                var webview = window.target.querySelector('body webview');
+                const webview = window.target.querySelector('body webview');
                 webview.src = linkUrl;
                 webview.addEventListener('loadcommit', function(e) {
                   this.insertCSS({
-                    code: '#meta{display:none} #info{display:none} #page-manager{margin: 0px} #masthead-container{display:none} #container{display:none} #related{display:none} #items{display:none}',
+                    code: '#meta{display:none} #info{display:none} #page-manager{margin: 0px} #masthead-container{display:none} #container{display:none} #related{display:none} #items{display:none} #page-manager{margin:0px!important}',
                     runAt: 'document_start'  // and added this
                   });
                 });
