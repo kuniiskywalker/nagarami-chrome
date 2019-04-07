@@ -1,11 +1,11 @@
 {
   "appName": {
-    "message": "nagarami",
+    "message": "nagarami(YouTubeをながら見するためのアプリ)",
     "description":""
   },
   "appDesc": {
-    "message": "",
-    "description":""
+    "message": "YouTubeを見ながら他のことができるアプリ",
+    "description":"YouTube専用の小さい画面が常に前面に表示されるので、他のツールに隠れることがなくなり、他のを作業をしながらYouTubeをお楽しみいただくことができます。"
   },
   "menuLabel": {
     "message": "ながら見る",
