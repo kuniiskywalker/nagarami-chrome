@@ -38,6 +38,7 @@ function runApp() {
                 const webview = window.target.querySelector('body webview');
 
                 const nagaramiButton = window.target.querySelector('#nagarami-button');
+                nagaramiButton.text = chrome.i18n.getMessage("buttonLabel");
 
                 webview.addEventListener('loadcommit', function(e) {
                     if(e.url.match(/^https:\/\/www.youtube.com\/watch\?v=/)) {

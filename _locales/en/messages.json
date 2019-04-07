@@ -10,5 +10,9 @@
   "menuLabel": {
     "message": "nagarami",
     "description": ""
+  },
+  "buttonLabel": {
+    "message": "watch",
+    "description": ""
   }
 }

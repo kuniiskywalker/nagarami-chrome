@@ -10,5 +10,9 @@
   "menuLabel": {
     "message": "ながら見る",
     "description": ""
+  },
+  "buttonLabel": {
+    "message": "ながら見る",
+    "description": ""
   }
 }
